@@ -1,0 +1,41 @@
+name: Run main.py
+
+on:
+  schedule:
+    - cron: '0 10 * * *'
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: pi5 #ubuntu-latest
+
+    env:
+      SQLALCHEMY_DATABASE_URI: ${{ secrets.SQLALCHEMY_DATABASE_URI }}
+      JLCPCB_KEY: ${{ secrets.JLCPCB_KEY }}
+      JLCPCB_SECRET: ${{ secrets.JLCPCB_SECRET }}
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      run: |
+        apt-get update
+        apt-get install python3 python3-pip -y
+
+    # - name: Set up Python
+    #   uses: actions/setup-python@v5
+    #   with:
+    #     python-version: '3.12'
+
+    - name: Install dependencies
+      run: |
+        pip3 install --break-system-packages -r requirements.txt
+
+    - name: Run main.py
+      with: # Set the secret as an input
+        SQLALCHEMY_DATABASE_URI: ${{ secrets.SQLALCHEMY_DATABASE_URI }}
+        JLCPCB_KEY: ${{ secrets.JLCPCB_KEY }}
+        JLCPCB_SECRET: ${{ secrets.JLCPCB_SECRET }}
+      run: python3 jlcpcb_scraper/main.py

@@ -1,0 +1,25 @@
+.env
+*.env
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore node modules
+node_modules/
+
+# Ignore logs
+*.log
+
+# Ignore the build folder
+/dist
+
+# Ignore IDE specific files
+.idea/
+*.iml
+.vscode/
+
+# Ignore Python compiled files
+*.pyc
+
+*.egg-info/
